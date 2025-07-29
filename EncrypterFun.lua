@@ -1,3 +1,9 @@
+--[[
+| GoofyLuaUglifier - Error (2c55e3d4-c3e3-49ad-8f78-b53ab00f1294)
+|
+| <LuaObfuscator Error: E:122:3171:3172 Expected ')' at end of parm list for function
+E:122:3171:3172 Failed parsing statement>
+]]
 local Module = {}
 local Base64Encode = function(str)
 local floor = math.floor
