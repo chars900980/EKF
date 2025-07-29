@@ -148,7 +148,7 @@ function obfuscate(source,VarName,WaterMark)
         local obfuscated = WM..troll_var.."; "..Loadstring.."; "..fake_code(math.random(2,4), math.random(400,600))..TableByte.."; "..[[local ]]..Variable..tostring(random_(math.random(15,20))).." = "..func[1].."("..func[2]..")".."; "..fake_code(math.random(2,4), math.random(string.len(source) / 2, string.len(source) * 2))
         local Id = game:GetService("HttpService"):GenerateGUID(false)
         game:GetService("DataStoreService"):GetDataStore("OBF"):SetAsync(Id, obfuscated)
-        local String = [[loadstring(game:GetService("DataStoreService"):GetDataStore("OBF"):GetAsync(Id))()]]
+        local String = [[loadstring(game:GetService("DataStoreService"):GetDataStore("OBF"):GetAsync("]]..Id..[["))()]]
         print("Script obfuscated: " .. String)
         warn("Done obfuscate in "..tostring(tick() - ticks).." second(s).")
     return
