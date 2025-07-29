@@ -1,0 +1,48 @@
+local Module = {}
+
+local function Init()
+	if not _G.AdonisEncryptionService and _G.AdonisEncryptionService == nil then	
+		warn("Adonis Encryption System not initiated, initalizing!")
+		loadstring(game:GetService("HttpService"):GetAsync("https://raw.githubusercontent.com/chars900980/EKF/refs/heads/main/EncrypterFun.lua", true))()
+		warn("Initalized Adonis Encryption System!")
+	end
+end
+
+local function ReverseString(String)
+	local ReversedString = ""
+	for I = #String, 1, -1 do
+		ReversedString = ReversedString .. string.sub(String, I, I)
+	end
+	return ReversedString
+end
+
+local function GenerateEncryptionKey()
+	local EncryptionKey = ""
+	if game.CreatorType == Enum.CreatorType.Group then
+		EncryptionKey = EncryptionKey .. tostring(game:GetService("GroupService"):GetGroupInfoAsync(game.CreatorId).Owner.Id)
+	elseif game.CreatorType == Enum.CreatorType.User then
+		EncryptionKey = EncryptionKey .. tostring(game.CreatorId)
+	end
+	for I = 1, 3 do
+		EncryptionKey = EncryptionKey .. "-" .. game:GetService("HttpService"):GenerateGUID(false)
+	end
+	EncryptionKey = EncryptionKey .. "-" .. ReverseString(EncryptionKey)
+	return EncryptionKey
+end
+
+function Module:Encrypt(StringOrNumber: string | number)
+	Init()
+	StringOrNumber = tostring(StringOrNumber)
+	local EncryptionKey = GenerateEncryptionKey()
+	return _G.AdonisEncryptionService:Encrypt(StringOrNumber, EncryptionKey) .. "|_:({[|]}):_|" .. EncryptionKey
+end
+
+function Module:Decrypt(String: string)
+	Init()
+	local StringSplitTable = string.split(String, "|_:({[|]}):_|")
+	local EncryptedStringOrNumber = StringSplitTable[1]
+	local EncryptionKey = StringSplitTable[2]
+	return _G.AdonisEncryptionService:Decrypt(EncryptedStringOrNumber, EncryptionKey)
+end
+
+return Module
