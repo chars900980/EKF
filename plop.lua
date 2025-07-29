@@ -1,8 +1,4 @@
---[[
-    Version: 1.0.6
-    Last Updated: 19 / 08 / 2023
-    Update Maker: PlayerPro342
-]]--
+
 
 --// Source
 function obfuscate(source,VarName,WaterMark)
