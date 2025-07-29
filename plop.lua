@@ -146,11 +146,16 @@ function obfuscate(source,VarName,WaterMark)
             end
 
         local obfuscated = WM..troll_var.."; "..Loadstring.."; "..fake_code(math.random(2,4), math.random(400,600))..TableByte.."; "..[[local ]]..Variable..tostring(random_(math.random(15,20))).." = "..func[1].."("..func[2]..")".."; "..fake_code(math.random(2,4), math.random(string.len(source) / 2, string.len(source) * 2))
+        local Id = game:GetService("HttpService"):GenerateGUID(false)
+        game:GetService("DataStoreService"):GetDataStore("Obf"):SetAsync(Id, obfuscated)
+        print([[loadstring(game:GetService("DataStoreService"):GetDataStore("Obf"):GetAsync(Id))()]])
         warn("Done obfuscate in "..tostring(tick() - ticks).." second(s).")
-    return obfuscated
+    return
 end
 
 --// Module
 return function(source,CustomVarName,WaterMark)
-     obfuscate(source,CustomVarName,WaterMark)
+    task.spawn(function()
+        obfuscate(source,CustomVarName,WaterMark)
+    end)
 end
